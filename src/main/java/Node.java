@@ -1,5 +1,5 @@
 public class Node {
-    public int Id;
+    private int Id;
 
     public Node(int Id){
         this.Id = Id;

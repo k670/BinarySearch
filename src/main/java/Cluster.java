@@ -3,7 +3,7 @@ import java.util.Random;
 public class Cluster implements Fallible {
     private int nodeId;
     private int serverId;
-    private Server[] servers;
+    public Server[] servers;
 
     public Cluster(Server[] servers){
         this.servers = servers;
@@ -11,11 +11,10 @@ public class Cluster implements Fallible {
 
     public Cluster(){
         Random random = new Random();
-        int countOfServers = random.nextInt(100);
+        int countOfServers = random.nextInt(90)+10;
         servers = new Server[countOfServers];
-        for (int i = 0; i<servers.length; i++) {
-            servers[i] = new Server();
-            servers[i].Id = i;
+        for (int i = 0; i<countOfServers; i++) {
+            servers[i] = new Server(i);
         }
     }
 
@@ -25,9 +24,9 @@ public class Cluster implements Fallible {
         return (this.serverId < serverId)||((this.serverId == serverId)&&(this.nodeId <= nodeId));
     }
 
-    public int getCountOfServers() {
+  /*  public int getCountOfServers() {
         return servers.length;
-    }
+    }*/
 
     public int getCountOfNodes(int serverId) {
         return servers[serverId].Nodes.length;
