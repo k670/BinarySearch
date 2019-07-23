@@ -6,6 +6,6 @@ public class Main {
 
         FailSearchEngine failSearchEngine = new FailSearchEngine(cluster);
         ResultModel resultModel = failSearchEngine.search();
-        System.out.println(resultModel);
+        System.out.println("Result - "+resultModel);
     }
 }

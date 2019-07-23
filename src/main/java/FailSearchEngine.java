@@ -1,8 +1,8 @@
 public class FailSearchEngine {
 
-    private Cluster cluster;
+    private Fallible cluster;
 
-    public  FailSearchEngine(Cluster cluster){
+    public  FailSearchEngine(Fallible cluster){
         this.cluster = cluster;
 
     }
