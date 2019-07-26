@@ -1,15 +1,15 @@
-public class FailSearchEngine {
+class FailSearchEngine {
 
     private Fallible cluster;
 
-    public  FailSearchEngine(Fallible cluster){
+    FailSearchEngine(Fallible cluster){
         this.cluster = cluster;
 
     }
 
-    public ResultModel search(){
-        int server = searchServer(0,cluster.servers.length);
-        int countNode = cluster.servers[server].Nodes.length;
+    ResultModel search(){
+        int server = searchServer(0,cluster.getCountOfServers());
+        int countNode = cluster.getCountOfNodes(server);
         return new ResultModel(server,searchNode(server,0,countNode));
     }
 
@@ -17,7 +17,7 @@ public class FailSearchEngine {
 
         if(start == finish) return start;
         if((finish-start)<2){
-            int countOfNodes = cluster.servers[start].Nodes.length-1;
+            int countOfNodes = cluster.getCountOfNodes(start)-1;
             return cluster.isFail(start,countOfNodes)?start:finish;
         }
 

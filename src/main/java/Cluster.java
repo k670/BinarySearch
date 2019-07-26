@@ -1,46 +1,57 @@
 import java.util.Random;
 
-public class Cluster extends Fallible {
-    private int nodeId;
-    private int serverId;
+public class Cluster implements Fallible {
 
-    public Cluster(Server[] servers){
+    private Server[] servers;
+
+    public Cluster(Server[] servers) {
         this.servers = servers;
     }
 
-    public Cluster(){
+     Cluster() {
         Random random = new Random();
-        int countOfServers = random.nextInt(90)+10;
+        int countOfServers = random.nextInt(90) + 10;
         servers = new Server[countOfServers];
-        for (int i = 0; i<countOfServers; i++) {
+        for (int i = 0; i < countOfServers; i++) {
             servers[i] = new Server(i);
         }
     }
 
-    @Override
     public boolean isFail(int serverId, int nodeId) {
-        if((servers.length<=serverId)||(servers[serverId].Nodes.length<=nodeId)) throw new NullPointerException();
 
-        return (this.serverId < serverId)||((this.serverId == serverId)&&(this.nodeId <= nodeId));
+        return servers[serverId].nodes[nodeId].isFailed();
+    }
+
+    public int getCountOfServers() {
+        return servers.length;
     }
 
 
     public int getCountOfNodes(int serverId) {
-        return servers[serverId].Nodes.length;
+        return servers[serverId].nodes.length;
     }
 
-    public void sendData(){
+    void sendData() {
         Random random = new Random();
-        serverId = random.nextInt(servers.length);
-        nodeId = random.nextInt(servers[serverId].Nodes.length);
-        System.out.println("Cluster failed on "+serverId+" server "+nodeId+" node");
+        int serverId = random.nextInt(servers.length);
+        int nodeId = random.nextInt(servers[serverId].nodes.length);
+
+        for (int i = serverId + 1; i < servers.length; i++) {
+            for (Node node : servers[i].nodes) {
+                node.setFailed();
+            }
+        }
+        for (int i = nodeId; i < servers[serverId].nodes.length; i++) {
+            servers[serverId].nodes[i].setFailed();
+        }
+        System.out.println("Cluster failed on " + serverId + " server " + nodeId + " node");
     }
 
-    @Override
+
     public String toString() {
         String rez = "Cluster: ";
         for (int i = 0; i < servers.length; i++) {
-            rez+="\n"+i+".\t"+servers[i];
+            rez += "\n" + i + ".\t" + servers[i];
         }
         return rez;
     }

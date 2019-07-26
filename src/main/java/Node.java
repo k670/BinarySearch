@@ -1,12 +1,23 @@
 public class Node {
-    private int Id;
+    private int id;
+    private boolean failed;
 
-    public Node(int Id){
-        this.Id = Id;
+     Node(int id) {
+        this.id = id;
+        this.failed = false;
     }
 
     @Override
     public String toString() {
-        return "Node: Id = "+Id;
+
+        return "Node: Id = " + id+(failed?" true":" false");
+    }
+
+     boolean isFailed() {
+        return failed;
+    }
+
+     void setFailed() {
+        this.failed = true;
     }
 }
